@@ -13,13 +13,36 @@
 
 
 
-const names = ["Giorgi","Luka","Goga","Vano"]
+// const names = ["Giorgi","Luka","Goga","Vano"]
 
-console.table(names)
+// console.table(names)
 
-const person = {
-    name:"Giorgi",
-    age:18
-}
+// const person = {
+//     name:"Giorgi",
+//     age:18
+// }
 
-console.table(person)
+// console.table(person)
+
+
+
+
+// process — გვეხმარება პროცესთან დაკავშირებულ ინფორმაციაზე წვდომაში
+// process.argv — ეს არის მასივი, რომელიც ინახავს ტერმინალში ჩაწერილ არგუმენტებს
+
+
+
+const args = process.argv.slice(2)
+
+
+const num1 = parseInt(args[0])
+const num2 = parseInt(args[1])
+
+
+const sum = num1 + num2;
+console.log(`The sum is: ${sum}`)
+
+const convertToMb = (bytes) => (bytes / 1024 / 1024).toFixed(2);
+
+
+console.log(convertToMb(process.memoryUsage().heapUsed));
