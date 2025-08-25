@@ -1,0 +1,87 @@
+[
+  {
+    "id": 2,
+    "name": "Smartphone Case",
+    "category": "Accessories",
+    "price": 15.99,
+    "stock": 120,
+    "image": "https://via.placeholder.com/200x200.png?text=Phone+Case",
+    "description": "Durable shockproof smartphone case with sleek design."
+  },
+  {
+    "id": 3,
+    "name": "Running Shoes",
+    "category": "Fashion",
+    "price": 65,
+    "stock": 40,
+    "image": "https://via.placeholder.com/200x200.png?text=Shoes",
+    "description": "Lightweight breathable running shoes for everyday use."
+  },
+  {
+    "id": 4,
+    "name": "Gaming Mouse",
+    "category": "Electronics",
+    "price": 49.99,
+    "stock": 30,
+    "image": "https://via.placeholder.com/200x200.png?text=Gaming+Mouse",
+    "description": "Ergonomic gaming mouse with RGB lighting and adjustable DPI."
+  },
+  {
+    "id": 5,
+    "name": "Coffee Maker",
+    "category": "Home & Kitchen",
+    "price": 89.5,
+    "stock": 15,
+    "image": "https://via.placeholder.com/200x200.png?text=Coffee+Maker",
+    "description": "Programmable drip coffee maker with auto shut-off feature."
+  },
+  {
+    "id": 6,
+    "name": "Backpack",
+    "category": "Fashion",
+    "price": 39.99,
+    "stock": 60,
+    "image": "https://via.placeholder.com/200x200.png?text=Backpack",
+    "description": "Water-resistant multipurpose backpack for school or travel."
+  },
+  {
+    "id": 7,
+    "name": "Desk Lamp",
+    "category": "Home & Office",
+    "price": 25,
+    "stock": 50,
+    "image": "https://via.placeholder.com/200x200.png?text=Desk+Lamp",
+    "description": "LED desk lamp with adjustable brightness and USB charging port."
+  },
+  {
+    "id": 8,
+    "name": "Bluetooth Speaker",
+    "category": "Electronics",
+    "price": 59.95,
+    "stock": 35,
+    "image": "https://via.placeholder.com/200x200.png?text=Speaker",
+    "description": "Portable waterproof Bluetooth speaker with deep bass."
+  },
+  {
+    "id": 9,
+    "name": "Wrist Watch",
+    "category": "Fashion",
+    "price": 129.99,
+    "stock": 20,
+    "image": "https://via.placeholder.com/200x200.png?text=Watch",
+    "description": "Classic stainless steel wrist watch with leather strap."
+  },
+  {
+    "id": 10,
+    "name": "Yoga Mat",
+    "category": "Sports",
+    "price": 22.5,
+    "stock": 75,
+    "image": "https://via.placeholder.com/200x200.png?text=Yoga+Mat",
+    "description": "Non-slip eco-friendly yoga mat with carrying strap."
+  },
+  {
+    "id": 11,
+    "name": "saficfdvbfsbvdsvdhxia"
+  }
+]
