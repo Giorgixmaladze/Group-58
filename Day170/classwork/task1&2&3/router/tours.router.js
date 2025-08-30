@@ -4,11 +4,12 @@ const fs = require("fs")
 
 const app = express()
 
-const tours= JSON.parse(fs.readFileSync("../tours.json"))
+const tours= JSON.parse(fs.readFileSync("../../tours.json"))
 
 
 
-app.get("/tours", (req,res) =>{
+
+app.get("/", (req,res) =>{
     const {sort} = req.query
 
     const copiedTours = [...tours]
@@ -23,7 +24,7 @@ app.get("/tours", (req,res) =>{
 })
 
 
-app.get("/tours/:id",(req,res) =>{
+app.get("/:id",(req,res) =>{
     const {id} = req.params
 
     const tour  =  tours.find((el) => el.id === id)
@@ -32,8 +33,4 @@ app.get("/tours/:id",(req,res) =>{
         return res.status(404).json({message:"Tour not found"})
     }
     res.json(tour)
-})
-
-app.listen(3000,() => {
-    console.log("Server is running")
 })
