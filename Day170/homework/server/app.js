@@ -2,10 +2,11 @@
 
 
 const express = require("express")
-
+const cors = require("cors");
 const app = express()
 
 const {carsRouter} = require("./router/cars.router.js")
+app.use(cors());
 
 app.use("/cars",carsRouter)
 

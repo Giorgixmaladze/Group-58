@@ -5,7 +5,7 @@ const carsRouter = express.Router()
 const {getAllCars,getSingleCar,addCar,updateCar,deleteCar} = require("../controllers/cars.contoller.js")
 
 
-carsRouter.get("/",(req,res) =>{
+carsRouter.get("/", (req,res) =>{
     getAllCars(req,res)
 })
 
