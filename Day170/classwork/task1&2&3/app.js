@@ -4,7 +4,7 @@ const express = require("express")
 const app = express()
 
 
-const toursRouter = require("./router/tours.router")
+const {toursRouter} = require("./router/tours.router.js")
 
 app.use("/tours",toursRouter)
 

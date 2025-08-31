@@ -2,14 +2,14 @@ const express = require("express")
 
 const fs = require("fs")
 
-const app = express()
+const toursRouter = express.Router()
 
-const tours= JSON.parse(fs.readFileSync("../../tours.json"))
-
-
+const tours= JSON.parse(fs.readFileSync("./tours.json"))
 
 
-app.get("/", (req,res) =>{
+
+
+toursRouter.get("/", (req,res) =>{
     const {sort} = req.query
 
     const copiedTours = [...tours]
@@ -24,13 +24,16 @@ app.get("/", (req,res) =>{
 })
 
 
-app.get("/:id",(req,res) =>{
+toursRouter.get("/:id",(req,res) =>{
     const {id} = req.params
 
-    const tour  =  tours.find((el) => el.id === id)
+    const tour  =  tours.find((el) => el.id === parseInt(id))
     
     if(!tour){
         return res.status(404).json({message:"Tour not found"})
     }
     res.json(tour)
 })
+
+
+module.exports = {toursRouter}
