@@ -1,12 +1,12 @@
 const { Post } = require("../model/posts.model")
+const AppError = require("../utils/appError")
 
-const getAllPosts = async (req, res, next) => {
+const getAllPosts = async (req, res) => {
     const posts = await Post.find()
 
+    res.json(posts)
 
-    next(new Error("Test error"))
 
-    // res.json(posts)
 }
 
 const createPost = async (req, res) => {
@@ -26,17 +26,15 @@ const createPost = async (req, res) => {
 }
 
 
-const getSinglePost = async (req, res) => {
+const getSinglePost = async (req, res, next) => {
     const { id } = req.params
-    try {
-        const post = await Post.findById(id)
-        if (!post) {
-            return res.status(404).json({ message: "Post not found" })
-        }
-        res.json(post)
-    } catch (err) {
-        console.error(err)
+
+    const post = await Post.findById(id)
+    if (!post) {
+        return next(new AppError("Post not found", 404))
     }
+    res.json(post)
+
 }
 
 

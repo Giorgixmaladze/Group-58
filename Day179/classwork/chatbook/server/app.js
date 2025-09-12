@@ -15,20 +15,16 @@ app.use(express.json())
 
 
 app.use("/posts",postRouter)
-app.use((err,req,res,next) =>{
-    res.status(err.status || 500).json({
-        success:false,
-        message:err.message || "Fail",
-        error:err
-    })
-})
+
 app.use("/users",userRouter)
 if(process.env.NODE_ENV === "development"){
     app.use(morgan("dev"))
 }
 
 
-
+app.use((err,req,res,next) =>{
+    res.status(err.statusCode).json(err)
+})
 
 mongoose.connect(process.env.DATABASE_URL)
     .then(() => {
