@@ -22,9 +22,7 @@ if(process.env.NODE_ENV === "development"){
 }
 
 
-app.use((err,req,res,next) =>{
-    res.status(err.statusCode).json(err)
-})
+app.use(globalErrorHandler)
 
 mongoose.connect(process.env.DATABASE_URL)
     .then(() => {

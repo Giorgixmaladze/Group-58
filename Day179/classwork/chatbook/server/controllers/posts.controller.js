@@ -1,15 +1,16 @@
 const { Post } = require("../model/posts.model")
 const AppError = require("../utils/appError")
+const catchAsync = require("../utils/catchAsync")
 
-const getAllPosts = async (req, res) => {
+const getAllPosts = catchAsync(async (req, res) => {
     const posts = await Post.find()
 
     res.json(posts)
 
 
-}
+})
 
-const createPost = async (req, res) => {
+const createPost = catchAsync(async (req, res) => {
     const { title, content } = req.body
 
     try {
@@ -24,9 +25,9 @@ const createPost = async (req, res) => {
         console.log(err)
     }
 }
+)
 
-
-const getSinglePost = async (req, res, next) => {
+const getSinglePost = catchAsync(async (req, res, next) => {
     const { id } = req.params
 
     const post = await Post.findById(id)
@@ -35,23 +36,20 @@ const getSinglePost = async (req, res, next) => {
     }
     res.json(post)
 
-}
+})
 
 
 
-const deletePost = async (req, res) => {
+const deletePost = catchAsync(async (req, res) => {
     const { id } = req.params
 
-    try {
-        const post = await Post.findByIdAndDelete(id)
-        if (!post) {
-            return res.status(404).json({ message: "Post not found" })
-        }
-        res.json({ message: "Post Deleted", post })
-    } catch (err) {
-        console.error(err)
+    const post = await Post.findByIdAndDelete(id)
+    if (!post) {
+        return res.status(404).json({ message: "Post not found" })
     }
-}
+    res.json({ message: "Post Deleted", post })
+
+})
 
 
 module.exports = { getAllPosts, createPost, getSinglePost, deletePost }
