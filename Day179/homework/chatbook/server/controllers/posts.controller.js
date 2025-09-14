@@ -17,7 +17,7 @@ const getAllPosts = catchAsync(async (req, res) => {
 const createPost = catchAsync(async (req, res) => {
     const { title, content } = req.body
 
-    try {
+    
         const post = await Post.create({
             title,
             content,
@@ -25,11 +25,8 @@ const createPost = catchAsync(async (req, res) => {
         })
 
         res.json(post)
-    } catch (err) {
-        console.log(err)
-    }
-}
-)
+    
+})
 
 
 //მხოლოდ ერთი პოსტის წამოღება ID ის საშუალებით
