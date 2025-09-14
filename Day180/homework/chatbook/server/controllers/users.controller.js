@@ -62,7 +62,7 @@ const updateUserPassword = catchAsync( async (req,res,next) =>{
     
     )
     if(!user){
-        return next(new AppError("User not registered",401))
+        return next(new AppError("User not registered",404))
     }
     res.status(200).json({
         message:"password successfully updated",
