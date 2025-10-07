@@ -1,0 +1,54 @@
+Json Web Token(JWT) -  გამოიყენება ინფორმაციის უსაფრთხოდ გადაცემისთვის,ის ხშირად გამოიყენება ავტენთიფიკაციის და ავტორიზაციის სისტემებში
+
+
+
+JWT შედგება სამი ნაწილისგან,რომლებიც წერტილით არის დაყოფილი
+
+header.payload.signature
+
+
+მაგალითად:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+.
+eyJ1c2VySWQiOiIxMjM0NTYiLCJlbWFpbCI6Imdpby5AZ21haWwuY29tIn0
+.
+Xn5dJp0G0k5fsl_zM4QyVzvn9V6h5C6EQvQ2r8h7iTo
+
+
+
+
+1. Header - არის მონაცემი იმისა თუ რა ალგორითმი გამოიყენება ამ ტოკენისთვის
+
+
+მაგალითად:
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+
+
+
+2.Payload - ეს არის თვითონ ინფორმაცია,რომელსაც გადასცემ, მასში შეიძლება იყოს,id,name,email,iat(issued at - როდის გაიცა),exp(expiration - როდის იწურება)
+
+
+მაგალითად:
+{
+  "userId": "123456",
+  "email": "gio@gmail.com",
+  "role": "admin",
+  "exp": 1696532800
+}
+
+
+3.signature - ეს არის ხელმოწერა, რომელიც სერვერს ეხმარება დარწმუნდეს, რომ ტოკენი არ შეუცვლიათ.
+
+
+
+Header და Payload ერთდება (header.payload)
+
+სერვერი იღებს Secret key-ს (რომელსაც მხოლოდ მან იცის)
+
+ალგორითმით (მაგ. HS256) ითვლება ჰეში
+
+შედეგი ხდება Signature
