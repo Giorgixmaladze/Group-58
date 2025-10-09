@@ -8,6 +8,7 @@ const mongoose = require("mongoose")
 const postRouter = require("./router/posts.router")
 const {userRouter} = require("./router/users.router")
 const globalErrorHandler = require("./controllers/error.controller")
+const commentRouter = require("./router/comment.router")
 
 
 dotenv.config()
@@ -25,6 +26,8 @@ if(process.env.NODE_ENV === "development"){
 
 
 app.use(globalErrorHandler)
+
+app.use("/comments",commentRouter)
 
 mongoose.connect(process.env.DATABASE_URL)
     .then(() => {
