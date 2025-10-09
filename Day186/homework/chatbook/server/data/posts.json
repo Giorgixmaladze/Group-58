@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "author": "John Doe",
+    "title": "Getting Started with JavaScript",
+    "description": "A beginner's guide to understanding variables, functions, and loops in JavaScript.",
+    "date": "2025-09-09",
+    "comments": [
+      {
+        "id": 1,
+        "author": "Sarah Wilson",
+        "content": "Great introduction! This really helped me understand the basics.",
+        "date": "2025-09-10"
+      },
+      {
+        "id": 2,
+        "author": "Mike Chen",
+        "content": "Could you add more examples with arrow functions?",
+        "date": "2025-09-11"
+      }
+    ],
+    "tags": ["javascript", "programming", "beginner", "tutorial"]
+  },
+  {
+    "id": 2,
+    "author": "Jane Smith",
+    "title": "Why React is Great for Frontend Development",
+    "description": "React provides reusable components, virtual DOM, and a strong ecosystem for building modern UIs.",
+    "date": "2025-09-08",
+    "comments": [
+      {
+        "id": 3,
+        "author": "David Brown",
+        "content": "React has definitely changed how I think about component architecture.",
+        "date": "2025-09-09"
+      }
+    ],
+    "tags": ["react", "frontend", "javascript", "components"]
+  },
+  {
+    "id": 3,
+    "author": "Alex Johnson",
+    "title": "Node.js for Backend Development",
+    "description": "An introduction to building REST APIs with Express and Node.js.",
+    "date": "2025-09-07",
+    "comments": [
+      {
+        "id": 4,
+        "author": "Emily Davis",
+        "content": "Node.js has been a game changer for full-stack JavaScript development.",
+        "date": "2025-09-08"
+      },
+      {
+        "id": 5,
+        "author": "Tom Wilson",
+        "content": "What about performance compared to other backend technologies?",
+        "date": "2025-09-09"
+      }
+    ],
+    "tags": ["nodejs", "backend", "express", "api"]
+  },
+  {
+    "id": 4,
+    "author": "Maria Garcia",
+    "title": "CSS Grid vs Flexbox: When to Use What",
+    "description": "A comprehensive comparison of CSS Grid and Flexbox, with practical examples and use cases.",
+    "date": "2025-09-06",
+    "comments": [
+      {
+        "id": 6,
+        "author": "Lisa Anderson",
+        "content": "This cleared up so much confusion for me! Thank you.",
+        "date": "2025-09-07"
+      },
+      {
+        "id": 7,
+        "author": "Robert Taylor",
+        "content": "I still prefer flexbox for simple layouts, but grid is powerful for complex designs.",
+        "date": "2025-09-08"
+      }
+    ],
+    "tags": ["css", "grid", "flexbox", "layout", "web-design"]
+  },
+  {
+    "id": 5,
+    "author": "Kevin Lee",
+    "title": "Building Scalable APIs with Express.js",
+    "description": "Best practices for creating maintainable and scalable REST APIs using Express.js framework.",
+    "date": "2025-09-05",
+    "comments": [
+      {
+        "id": 8,
+        "author": "Jennifer Martinez",
+        "content": "The middleware section was particularly helpful!",
+        "date": "2025-09-06"
+      }
+    ],
+    "tags": ["express", "api", "nodejs", "scalability", "backend"]
+  },
+  {
+    "id": 6,
+    "author": "Sophie Chen",
+    "title": "Introduction to TypeScript",
+    "description": "Why TypeScript is becoming essential for modern JavaScript development and how to get started.",
+    "date": "2025-09-04",
+    "comments": [
+      {
+        "id": 9,
+        "author": "Daniel Kim",
+        "content": "TypeScript saved me from so many runtime errors. Great post!",
+        "date": "2025-09-05"
+      },
+      {
+        "id": 10,
+        "author": "Rachel Green",
+        "content": "The learning curve is steep but totally worth it.",
+        "date": "2025-09-06"
+      }
+    ],
+    "tags": ["typescript", "javascript", "programming", "types"]
+  },
+  {
+    "id": 7,
+    "author": "Michael Rodriguez",
+    "title": "Docker for Developers: A Complete Guide",
+    "description": "Learn how to containerize your applications with Docker for better development and deployment workflows.",
+    "date": "2025-09-03",
+    "comments": [
+      {
+        "id": 11,
+        "author": "Amanda White",
+        "content": "Docker has simplified our deployment process significantly.",
+        "date": "2025-09-04"
+      },
+      {
+        "id": 12,
+        "author": "Chris Johnson",
+        "content": "Great examples! The multi-stage builds section was very helpful.",
+        "date": "2025-09-05"
+      }
+    ],
+    "tags": ["docker", "devops", "containers", "deployment"]
+  },
+  {
+    "id": 8,
+    "author": "Laura Thompson",
+    "title": "Modern JavaScript ES6+ Features You Should Know",
+    "description": "Essential ES6+ features including destructuring, arrow functions, async/await, and more.",
+    "date": "2025-09-02",
+    "comments": [
+      {
+        "id": 13,
+        "author": "James Wilson",
+        "content": "async/await has made my code so much cleaner!",
+        "date": "2025-09-03"
+      }
+    ],
+    "tags": ["javascript", "es6", "es2015", "modern-js", "features"]
+  },
+  {
+    "id": 9,
+    "author": "Ryan Park",
+    "title": "MongoDB vs SQL: Choosing the Right Database",
+    "description": "A detailed comparison of NoSQL (MongoDB) and SQL databases to help you make the right choice for your project.",
+    "date": "2025-09-01",
+    "comments": [
+      {
+        "id": 14,
+        "author": "Nicole Adams",
+        "content": "Great comparison! I'm still learning when to use each.",
+        "date": "2025-09-02"
+      },
+      {
+        "id": 15,
+        "author": "Brian Clark",
+        "content": "MongoDB's flexibility is great, but SQL's ACID properties are sometimes necessary.",
+        "date": "2025-09-03"
+      }
+    ],
+    "tags": ["mongodb", "sql", "database", "nosql", "comparison"]
+  },
+  {
+    "id": 10,
+    "author": "Elena Petrov",
+    "title": "Git Best Practices for Team Development",
+    "description": "Essential Git workflows, branching strategies, and collaboration techniques for development teams.",
+    "date": "2025-08-31",
+    "comments": [
+      {
+        "id": 16,
+        "author": "Mark Thompson",
+        "content": "The branching strategy section is gold!",
+        "date": "2025-09-01"
+      },
+      {
+        "id": 17,
+        "author": "Jessica Liu",
+        "content": "I wish I had read this when I started using Git.",
+        "date": "2025-09-02"
+      },
+      {
+        "id": 18,
+        "author": "Andrew Davis",
+        "content": "Great tips on commit messages and pull request reviews.",
+        "date": "2025-09-03"
+      }
+    ],
+    "tags": ["git", "version-control", "collaboration", "best-practices", "workflow"]
+  }
+]
