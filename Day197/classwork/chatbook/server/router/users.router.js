@@ -1,6 +1,6 @@
 const express = require("express")
 const { getAllUsers, updateUser, deleteUser, getSingleUser, updateUserPassword } = require("../controllers/users.controller")
-const { signUp, logIn, verifyEmail,autoLogin } = require("../controllers/auth.controller")
+const { signUp, logIn, verifyEmail,autoLogin, logOut } = require("../controllers/auth.controller")
 const {protect} = require("../middlewares/auth.middleware")
 
 const userRouter = express.Router()
@@ -17,6 +17,7 @@ userRouter.post("/login", logIn)
 // Get current authenticated user (for auto-login)
 userRouter.get("/me", protect, autoLogin)
 
+userRouter.post("/logout",logOut)
 // userRouter
 //     .route("/password")
 //     .patch(updateUserPassword)

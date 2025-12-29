@@ -124,7 +124,7 @@ const verifyEmail = catchAsync(async (req,res,next) =>{
 const autoLogin = catchAsync(async (req, res, next) => {
  
   const user = await User.findById(req.user._id);
-  
+  console.log(user)
   if (!user) {
     return next(new AppError("User not found", 404));
   }
@@ -139,4 +139,15 @@ const autoLogin = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = {signUp,logIn,verifyEmail,autoLogin}
+
+const logOut = (req,res,next) =>{
+  res.clearCookie('lt',{
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: "lax",
+  })
+
+  res.json("logged out !")
+}
+
+module.exports = {signUp,logIn,verifyEmail,autoLogin,logOut}

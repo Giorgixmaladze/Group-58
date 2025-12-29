@@ -61,6 +61,8 @@ const PostProvider = ({ children }) => {
     }
 
     useEffect(() => {
+
+        console.log(user)
         if (user?._id) {
             getPostsByUser(user._id)
         }

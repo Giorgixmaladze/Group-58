@@ -4,7 +4,7 @@ import { PostContext } from "../context/PostContext"
 import Nav from "../components/Nav"
 
 const Profile = () =>{
-    const {user} = useContext(AuthContext)
+    const {user,logOut} = useContext(AuthContext)
     const {posts,createPost} = useContext(PostContext)
     
     const handleSubmit = async (e) => {
@@ -25,6 +25,7 @@ const Profile = () =>{
     return(
         <div>
             <Nav />
+            <button onClick={logOut}>Log Out</button>
             <h1>Profile page</h1>
             {user && (
                 <>
@@ -45,7 +46,7 @@ const Profile = () =>{
             <div>
                 <h3>Your Posts:</h3>
              
-                { posts && posts.length > 0 ? (
+                {posts.length > 0 ? (
                     <ul>
                         {posts.map((post) => (
                             <li key={post._id}>

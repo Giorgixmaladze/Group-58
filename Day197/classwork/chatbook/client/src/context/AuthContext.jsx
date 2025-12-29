@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
             const data = await res.json()
             console.log(data.status === "success" ? "Logged in" : data.message || "Login failed")
             setUser(data.data.user)
-            console.log(data.data.user)
+            console.log(user)
             navigate("/profile")
         } catch (err) {
             console.error(err)
@@ -48,12 +48,12 @@ const AuthProvider = ({ children }) => {
 
     }
 
-   
+
     const autoLogin = async () => {
         try {
             const res = await fetch("http://localhost:3000/users/me", {
                 method: "GET",
-                credentials: "include", 
+                credentials: "include",
             })
 
             if (res.ok) {
@@ -64,21 +64,37 @@ const AuthProvider = ({ children }) => {
                     navigate("/profile")
                 }
             } else {
-            
+
                 setUser(null)
             }
         } catch (err) {
             console.error("Auto-login error:", err)
             setUser(null)
-        } 
+        }
     }
 
-user&&useEffect(() => {
+    const logOut = async () =>{
+        try{
+            await fetch("http://localhost:3000/users/logout",{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                credentials:"include",
+            })
+            navigate("/login")
+        }catch(err){
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        
         autoLogin()
     }, [])
 
     return (
-        <AuthContext.Provider value={{ login, signUp, user }}>
+        <AuthContext.Provider value={{ login, signUp, user,logOut}}>
             {children}
         </AuthContext.Provider>
     )
