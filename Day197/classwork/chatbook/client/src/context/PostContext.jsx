@@ -119,9 +119,15 @@ const PostProvider = ({ children }) => {
             })
 
             const post = await res.json()
-            console.log(post)
-            setupdateId(post._id)
             
+            if(!res.ok){
+                throw new error("Something was wrong")
+            }
+
+            const index = userPosts.findIndex(item => item._id === postId)
+            const copiedArr = [...userPosts]
+            copiedArr.splice(index,1,data)
+            setUserPosts(copiedArr)
             
         }catch(err){
             console.error(err)

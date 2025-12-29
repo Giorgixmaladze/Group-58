@@ -31,7 +31,7 @@ const Profile = () =>{
         }
         try{
             editPost(data,postId)
-            setToggleUpdate(false)
+            setUpdateId(null)
         }catch(err){
             console.error(err)
         }
@@ -69,11 +69,11 @@ const Profile = () =>{
                             <li key={post._id}>
                                 {
                                     updateId === post._id?(
-                                        <form onSubmit={(e)=> handleUpdate(e,post._id)}>
+                                        <form onSubmit={(e)=> handleUpdate(e,post._id)} >
                                             <input type="text" name="title" defaultValue={post.title} />
-                                            <input type="text" name="content" defaultValue={post.content} />
+                                            <textarea name="content" defaultValue={post.content} />
                                             <button>Update</button>
-                                            <button onClick={()=>setToggleUpdate(false)}>Cancel</button>
+                                            <button onClick={()=>setUpdateId(null)}>Cancel</button>
                                         </form>
                                     ) :(
                                         <>
