@@ -5,7 +5,7 @@ import Nav from "../components/Nav"
 
 const Profile = () =>{
     const {user,logOut} = useContext(AuthContext)
-    const {posts,createPost} = useContext(PostContext)
+    const {userPosts,createPost,deletePost} = useContext(PostContext)
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -33,7 +33,7 @@ const Profile = () =>{
                     <p>User mail: {user.email}</p>
                     <p>Role: {user.role}</p>
                     <p>Verified: {user.isVerified ? "Yes" : "No"}</p>
-                    <p>Posts: {posts?.length || 0}</p>
+                    <p>Posts: {userPosts?.length || 0}</p>
                 </>
             )}
             
@@ -46,13 +46,14 @@ const Profile = () =>{
             <div>
                 <h3>Your Posts:</h3>
              
-                {posts.length > 0 ? (
+                {userPosts.length > 0 ? (
                     <ul>
-                        {posts.map((post) => (
+                        {userPosts.map((post) => (
                             <li key={post._id}>
                                 <h4>{post.title}</h4>
                                 <p>{post.content}</p>
                                 <p>Likes: {post.likesCount || 0}</p>
+                                <button onClick={() => deletePost(post._id)}>Delete Post</button>
                             </li>
                         ))}
                     </ul>

@@ -5,7 +5,8 @@ import { AuthContext } from "./AuthContext"
 export const PostContext = createContext()
 
 const PostProvider = ({ children }) => {
-    const [posts, setPosts] = useState([])
+    const [userPosts, setUserPosts] = useState([])
+    const [allPost,setAllPosts] = useState([])
     const [pagination, setPagination] = useState({
         currentPage: 1,
         totalPages: 2,
@@ -18,7 +19,7 @@ const PostProvider = ({ children }) => {
 
     const getAllPosts = async(page = 1, limit = 5) =>{
         try{
-            setPosts([])
+          
             const res = await fetch(`http://localhost:3000/posts?page=${page}&limit=${limit}`,{
                 credentials:"include"
             })
@@ -27,13 +28,9 @@ const PostProvider = ({ children }) => {
             }
             const data = await res.json()
             if (data.status === "success") {
-                setPosts(data.data.posts)
+                setAllPosts(data.data.posts)
                 setPagination(data.data.pagination)
-            } else {
-                // Fallback for old API format
-                setPosts(data)
             }
-            console.log(data)
 
 
         }catch(err){
@@ -54,7 +51,7 @@ const PostProvider = ({ children }) => {
             }
 
             const data = await res.json()
-            setPosts(data)
+            setUserPosts(data)
         } catch (err) {
             console.error(err)
         }
@@ -87,7 +84,7 @@ const PostProvider = ({ children }) => {
             const newPost = await res.json()
             
   
-            setPosts(prevPosts => [...prevPosts, newPost])
+            setUserPosts(prevPosts => [...prevPosts, newPost])
             
             return newPost
         } catch (err) {
@@ -96,8 +93,24 @@ const PostProvider = ({ children }) => {
         }
     }
 
+    const deletePost = async (postId) =>{
+        try{
+            await fetch(`http://localhost:3000/posts/${postId}`,{
+                method:"DELETE",
+                credentials:"include"
+            })
+            setUserPosts(userPosts.filter(post =>post._id !== postId))
+            
+        }catch(err){
+            console.error(err)
+        }
+    }
+
+
+    
+
     return (
-        <PostContext.Provider value={{ posts, pagination, getPostsByUser, createPost, getAllPosts }}>
+        <PostContext.Provider value={{allPost, userPosts, pagination, getPostsByUser, createPost, getAllPosts,deletePost }}>
             {children}
         </PostContext.Provider>
     )

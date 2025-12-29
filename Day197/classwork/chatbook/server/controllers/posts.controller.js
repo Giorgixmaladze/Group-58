@@ -110,7 +110,7 @@ const deletePost = catchAsync(async (req, res,next) => {
     await Post.findByIdAndDelete(id)
 
     res.json({ message: "Post Deleted" })
-
+    
 })
 
 
