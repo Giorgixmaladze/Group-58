@@ -5,7 +5,7 @@ import Nav from "../components/Nav"
 
 const Profile = () =>{
     const {user,logOut} = useContext(AuthContext)
-    const {userPosts,createPost,deletePost} = useContext(PostContext)
+    const {userPosts,createPost,deletePost,updateId,setUpdateId,editPost} = useContext(PostContext)
     
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -21,6 +21,23 @@ const Profile = () =>{
         }
 
     }
+
+
+    const handleUpdate = async (e,postId) =>{
+        e.preventDefault()
+        const data ={
+            title: e.target.title.value,
+            content: e.target.content.value
+        }
+        try{
+            editPost(data,postId)
+            setToggleUpdate(false)
+        }catch(err){
+            console.error(err)
+        }
+
+    }
+
 
     return(
         <div>
@@ -50,9 +67,26 @@ const Profile = () =>{
                     <ul>
                         {userPosts.map((post) => (
                             <li key={post._id}>
-                                <h4>{post.title}</h4>
-                                <p>{post.content}</p>
+                                {
+                                    updateId === post._id?(
+                                        <form onSubmit={(e)=> handleUpdate(e,post._id)}>
+                                            <input type="text" name="title" defaultValue={post.title} />
+                                            <input type="text" name="content" defaultValue={post.content} />
+                                            <button>Update</button>
+                                            <button onClick={()=>setToggleUpdate(false)}>Cancel</button>
+                                        </form>
+                                    ) :(
+                                        <>
+                                        <h4>{post.title}</h4>
+                                        <p>{post.content}</p>
+                                        
+                                        </>
+                                        
+                                    )
+                                }
+                                
                                 <p>Likes: {post.likesCount || 0}</p>
+                                <button onClick={()=> setUpdateId(post._id)}>Edit</button>
                                 <button onClick={() => deletePost(post._id)}>Delete Post</button>
                             </li>
                         ))}

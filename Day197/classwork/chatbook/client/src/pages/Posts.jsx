@@ -2,9 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import { PostContext } from "../context/PostContext"
 import Nav from "../components/Nav"
 import Pagination from "../components/Pagination"
+import { AuthContext } from "../context/AuthContext"
 
 const Posts = () => {
-    const {allPost, pagination, getAllPosts} = useContext(PostContext)
+    const {allPost, pagination, getAllPosts,editPost,toggleUpdate,setToggleUpdate} = useContext(PostContext)
+    const {user} = useContext(AuthContext)
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() =>{
@@ -16,6 +18,8 @@ const Posts = () => {
         setCurrentPage(page)
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
+
+    
 
     return(
         <div>

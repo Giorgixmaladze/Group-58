@@ -7,6 +7,7 @@ export const PostContext = createContext()
 const PostProvider = ({ children }) => {
     const [userPosts, setUserPosts] = useState([])
     const [allPost,setAllPosts] = useState([])
+    const [updateId,setUpdateId] = useState(null)
     const [pagination, setPagination] = useState({
         currentPage: 1,
         totalPages: 2,
@@ -106,11 +107,29 @@ const PostProvider = ({ children }) => {
         }
     }
 
+    const editPost = async (data, postId) =>{
+        try{
+            const res = await fetch(`http://localhost:3000/posts/${postId}`,{
+                method:"PATCH",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                credentials:"include",
+                body:JSON.stringify(data)
+            })
 
-    
+            const post = await res.json()
+            console.log(post)
+            setupdateId(post._id)
+            
+            
+        }catch(err){
+            console.error(err)
+        }
+    }
 
     return (
-        <PostContext.Provider value={{allPost, userPosts, pagination, getPostsByUser, createPost, getAllPosts,deletePost }}>
+        <PostContext.Provider value={{allPost, userPosts, pagination, getPostsByUser, createPost, getAllPosts,deletePost,editPost,updateId,setUpdateId }}>
             {children}
         </PostContext.Provider>
     )
