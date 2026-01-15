@@ -1,7 +1,7 @@
 const express = require("express")
 const { getAllUsers, updateUser, deleteUser, getSingleUser, updateUserPassword } = require("../controllers/users.controller")
-const { signUp, logIn, verifyEmail,autoLogin, logOut } = require("../controllers/auth.controller")
-const {protect} = require("../middlewares/auth.middleware")
+const { signUp, logIn, verifyEmail, autoLogin, logOut } = require("../controllers/auth.controller")
+const { protect } = require("../middlewares/auth.middleware")
 
 const userRouter = express.Router()
 
@@ -10,14 +10,14 @@ userRouter
     .route("/")
     .get(getAllUsers)
 
-userRouter.post("/register",signUp)
+userRouter.post("/register", signUp)
 
 userRouter.post("/login", logIn)
 
 // Get current authenticated user (for auto-login)
 userRouter.get("/me", protect, autoLogin)
 
-userRouter.post("/logout",logOut)
+userRouter.post("/logout", logOut)
 // userRouter
 //     .route("/password")
 //     .patch(updateUserPassword)
@@ -32,4 +32,4 @@ userRouter.post("/logout",logOut)
 
 userRouter.get("/register/verify/:code", verifyEmail)
 
-module.exports = {userRouter}
+module.exports = { userRouter }

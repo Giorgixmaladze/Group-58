@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthContext"
 
 export const PostContext = createContext()
 
+const API_URL = import.meta.env.VITE_API_URL
 const PostProvider = ({ children }) => {
     const [posts, setPosts] = useState([])
     const [pagination, setPagination] = useState({
@@ -19,7 +20,7 @@ const PostProvider = ({ children }) => {
     const getAllPosts = async(page = 1, limit = 5) =>{
         try{
             setPosts([])
-            const res = await fetch(`http://localhost:3000/posts?page=${page}&limit=${limit}`,{
+            const res = await fetch(`${API_URL}/posts?page=${page}&limit=${limit}`,{
                 credentials:"include"
             })
             if (!res.ok) {
@@ -45,7 +46,7 @@ const PostProvider = ({ children }) => {
         if (!userId) return
         
         try {
-            const res = await fetch(`http://localhost:3000/posts/${userId}`, {
+            const res = await fetch(`${API_URL}/posts/${userId}`, {
                 credentials: "include"
             })
 
@@ -71,7 +72,7 @@ const PostProvider = ({ children }) => {
 
     const createPost = async (formObj) => {
         try {
-            const res = await fetch("http://localhost:3000/posts", {
+            const res = await fetch(`${API_URL}/posts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

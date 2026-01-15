@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 export const AuthContext = createContext()
 
+const API_URL = import.meta.env.VITE_API_URL
 const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
     const login = async (formObj) => {
         try {
-            const res = await fetch("http://localhost:3000/users/login", {
+            const res = await fetch(`${API_URL}/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
@@ -32,7 +33,7 @@ const AuthProvider = ({ children }) => {
 
     const signUp = async (formObj) => {
         try {
-            const res = await fetch("http://localhost:3000/users/register", {
+            const res = await fetch(`${API_URL}/users/register`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
@@ -51,7 +52,7 @@ const AuthProvider = ({ children }) => {
 
     const autoLogin = async () => {
         try {
-            const res = await fetch("http://localhost:3000/users/me", {
+            const res = await fetch(`${API_URL}/users/me`, {
                 method: "GET",
                 credentials: "include",
             })
@@ -75,7 +76,7 @@ const AuthProvider = ({ children }) => {
 
     const logOut = async () =>{
         try{
-            await fetch("http://localhost:3000/users/logout",{
+            await fetch(`${API_URL}/users/logout`,{
                 method:"POST",
                 headers:{
                     "Content-type":"application/json"
