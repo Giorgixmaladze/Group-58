@@ -1,0 +1,72 @@
+[
+    {
+        "id":1,
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2022,
+        "color": "White"
+    },
+    {
+        "id":2,
+        "make": "Honda",
+        "model": "Civic",
+        "year": 2021,
+        "color": "Black"
+    },
+    {
+        "id":3,
+        "make": "Ford",
+        "model": "Mustang",
+        "year": 2023,
+        "color": "Red"
+    },
+    {
+        "id":4,
+        "make": "Chevrolet",
+        "model": "Impala",
+        "year": 2020,
+        "color": "Blue"
+    },
+    {
+        "id":5,
+        "make": "BMW",
+        "model": "X5",
+        "year": 2022,
+        "color": "Silver"
+    },
+    {
+        "id":6,
+        "make": "Audi",
+        "model": "A4",
+        "year": 2021,
+        "color": "Gray"
+    },
+    {
+        "id":7,
+        "make": "Mercedes-Benz",
+        "model": "C-Class",
+        "year": 2023,
+        "color": "White"
+    },
+    {
+        "id":8,
+        "make": "Volkswagen",
+        "model": "Golf",
+        "year": 2019,
+        "color": "Green"
+    },
+    {
+        "id":9,
+        "make": "Hyundai",
+        "model": "Elantra",
+        "year": 2020,
+        "color": "Blue"
+    },
+    {
+        "id":10,
+        "make": "Kia",
+        "model": "Sorento",
+        "year": 2022,
+        "color": "Black"
+    }
+]

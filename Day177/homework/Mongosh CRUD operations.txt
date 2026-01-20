@@ -1,0 +1,74 @@
+// ერთი დოკუმენტის დამატება
+
+
+db."DB name".insertOne({
+  name: "Gio",
+  age: 22,
+  email: "gio@example.com"
+})
+
+
+
+
+
+// რამდენიმე დოკუმენტის ერთად დამატება
+db."DB name".insertMany([
+  { name: "Nino", age: 25, email: "nino@example.com" },
+  { name: "Luka", age: 30, email: "luka@example.com" }
+])
+
+
+
+
+
+
+// ყველა დოკუმენტის წამოღება
+db."DB name".find()
+
+
+
+
+// ერთი კონკრეტული დოკუმენტი
+db."DB name".findOne({ name: "Gio" })
+
+
+
+
+// ფილტრი (მხოლოდ იმ მომხმარებლები ვისაც ასაკი მეტია 24-ზე)
+db."DB name".find({ age: { $gt: 24 } })
+
+
+
+
+
+// ერთი დოკუმენტის განახლება
+db."DB name".updateOne(
+  { name: "Gio" },              // რომელ დოკუმენტს ეძებ
+  { $set: { age: 23 } }         // რა ველებს ცვლი
+)
+
+
+
+// რამდენიმე დოკუმენტის განახლება ერთდროულად
+db."DB name".updateMany(
+  { age: { $lt: 25 } },
+  { $set: { isActive: true } }
+)
+
+
+
+// ერთი დოკუმენტის წაშლა
+db."Db name".deleteOne({ name: "Luka" })
+
+
+
+
+
+// რამდენიმე დოკუმენტის წაშლა
+db."DB name".deleteMany({ age: { $gt: 28 } })
+
+
+
+
+// დოკუმენტების რაოდენობის დათვლა
+db."DB name".countDocuments()

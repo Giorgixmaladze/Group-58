@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "author": "John Doe",
+    "title": "Getting Started with JavaScript",
+    "description": "A beginner's guide to understanding variables, functions, and loops in JavaScript.",
+    "date": "2025-09-09"
+  },
+  {
+    "id": 2,
+    "author": "Jane Smith",
+    "title": "Why React is Great for Frontend Development",
+    "description": "React provides reusable components, virtual DOM, and a strong ecosystem for building modern UIs.",
+    "date": "2025-09-08"
+  },
+  {
+    "id": 3,
+    "author": "Alex Johnson",
+    "title": "Node.js for Backend Development",
+    "description": "An introduction to building REST APIs with Express and Node.js.",
+    "date": "2025-09-07"
+  }
+]
