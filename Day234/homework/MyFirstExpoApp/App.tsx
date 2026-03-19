@@ -1,78 +1,62 @@
-import React from "react";
-import { ScrollView, Text, View,StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, View, StyleSheet, Image, SafeAreaView, Platform, StatusBar } from "react-native";
+import { fetchProducts } from "./fetch";
 
-import Card from "./components/Card";
-import Post from "./components/Post";
-import data from "./data/data";
-import type { User, Post as PostType, Featured } from "./data/data";
+const App = () => {
+  const [products, setProducts] = useState<any>([]);
 
-const HomeScreen = () => (
-  <ScrollView>
-    <Text style={styles.heading}>Stories</Text>
-    <ScrollView horizontal>
-      {(data.users as User[]).map((user) => (
-        <Card key={user.id} avatar={user.avatar} name={user.name} />
-      ))}
-    </ScrollView>
-    <Text style={styles.featured}>Featured</Text>
-    {(data.featured as Featured[]).map((post) => (
-      <Post
-        key={post.id}
-        image={post.image}
-        title={post.title}
-        description={post.description}
-        friend={false}
-      />
-    ))}
+  useEffect(() => {
+    fetchProducts().then((res) => setProducts(res));
+  }, []);
 
-    <Text style={styles.myFeed}>My Feed</Text>
-    {(data.posts as PostType[]).map((post) => (
-      <Post
-        key={post.id}
-        image={post.image}
-        title={post.title}
-        description={post.description}
-        friend={post.friend}
-      />
-    ))}
-  </ScrollView>
-);
-
-const App = () => (
-  <View style={styles.container}>
-    <HomeScreen />
-  </View>
-);
-
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        {products.map((product: any) => (
+          <View key={product.id} style={styles.card}>
+            <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
+            <Text style={styles.title}>{product.title}</Text>
+          </View>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    marginTop: 50,
-    gap:50
-  },heading:{
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 10,
+    backgroundColor: '#f4f4f4'
   },
-  featured:{
-   fontSize:25,
-   fontWeight: "bold",
-    marginTop:30,
-    marginBottom:30,
-    paddingHorizontal:16,
-    color:"blue"
+  container: {
+    padding: 16,
+    alignItems: 'center',
   },
-  myFeed:{
-    fontSize:25,
-    marginTop:30,
-    marginBottom:30,
-    paddingHorizontal:16,
-  }
-
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    width: '100%',
+    maxWidth: 400,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '#333',
+  },
 });
 
 export default App;
