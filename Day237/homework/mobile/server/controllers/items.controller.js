@@ -30,4 +30,41 @@ const createItem = (req,res) =>{
 
 
 
-module.exports = { getItems, createItem };
+const deleteItem = (req,res) =>{
+    const {id} = req.params;
+
+    const items = readItems();
+
+    const updatedItems = items.filter(item => item.id !== Number(id));
+
+    if (items.length === updatedItems.length) {
+        return res.status(404).json({ message: "Item not found" });
+    }
+    writeItems(updatedItems);
+
+    res.json({ message: `Item with ID ${id} was deleted successfully` });
+}
+
+const updateItem = (req,res) =>{
+    const {id} = req.params;
+ 
+    const {name} = req.body;
+
+    const items = readItems();
+
+    const itemIndex = items.findIndex(item => Number(id) === item.id);
+
+    if(itemIndex){
+        res.status(404).json({message:"Item not found"})
+    }
+
+    items[itemIndex].name = name;
+    writeItems(items)
+    res.json({message:"Item succesfully updated"});
+
+
+
+
+}
+
+module.exports = { getItems, createItem, deleteItem,updateItem };

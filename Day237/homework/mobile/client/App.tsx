@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  TextInput, 
-  Pressable, 
-  ScrollView, 
-  KeyboardAvoidingView, 
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  ScrollView,
+  KeyboardAvoidingView,
   Platform,
   Alert
 } from 'react-native';
@@ -15,12 +15,14 @@ import {
 export default function App() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [taskName, setTaskName] = useState<string>("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingText, setEditingText] = useState<string>("");
 
   useEffect(() => {
     fetch("http://localhost:3000/api/items")
       .then((res) => res.json())
-      .then((data : any) => setTasks(data));
-  }, []);
+      .then((data: any) => setTasks(data));
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (taskName.trim() === "") {
@@ -39,22 +41,34 @@ export default function App() {
       },
       body: JSON.stringify(newTaskData),
     })
-    .then(res => res.json())
-    .then((newItem: any) => {
-      setTasks([...tasks, newItem]);
-    });
-    
+      .then(res => res.json())
+      .then((newItem: any) => {
+        setTasks([...tasks, newItem]);
+      });
+
     setTaskName("");
   }
 
-  const deleteTask = (index: number) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+
+  const handleDeleteTask = (index: number) => {
+    const taskToDelete = tasks[index];
+
+    fetch(`http://localhost:3000/api/items/${taskToDelete.id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        const updatedTasks = tasks.filter((_, i) => i !== index);
+        setTasks(updatedTasks);
+      });
+
   }
+
+
+
 
   return (
     <View style={styles.safeArea}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
@@ -64,25 +78,25 @@ export default function App() {
         </View>
 
         <View style={styles.inputSection}>
-          <TextInput 
+          <TextInput
             style={styles.input}
-            placeholder="What needs to be done?" 
+            placeholder="What needs to be done?"
             placeholderTextColor="#adb5bd"
-            value={taskName} 
-            onChangeText={setTaskName} 
+            value={taskName}
+            onChangeText={setTaskName}
           />
-          <Pressable 
+          <Pressable
             style={({ pressed }) => [
               styles.addButton,
               pressed && styles.pressed
-            ]} 
+            ]}
             onPress={handleAddTask}
           >
             <Text style={styles.addButtonText}>Add</Text>
           </Pressable>
         </View>
 
-        <ScrollView 
+        <ScrollView
           style={styles.listContainer}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
@@ -95,14 +109,80 @@ export default function App() {
             tasks.map((task, index) => (
               <View key={task.id || index} style={styles.taskCard}>
                 <View style={styles.taskTextContainer}>
-                  <Text style={styles.taskText}>{task.name}</Text>
+                  {editingId === task.id ? (
+                    <TextInput
+                      style={styles.input}
+                      value={editingText}
+                      onChangeText={setEditingText}
+                      autoFocus
+                    />
+                  ) : (
+                    <Text style={styles.taskText}>{task.name}</Text>
+                  )}
                 </View>
-                <Pressable 
+                {editingId === task.id ? (
+                  <>
+                    <Pressable
+                      style={({ pressed }) => [
+                        styles.saveButton,
+                        pressed && styles.pressed
+                      ]}
+                      onPress={() => {
+                        const updatedTasks = [...tasks];
+                        updatedTasks[index].name = editingText;
+                        setTasks(updatedTasks);
+                        fetch(`http://localhost:3000/api/items/${task.id}`, {
+                          method: "PATCH",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({ name: editingText }),
+                        })
+                          .then(res => res.json())
+                          .then((updatedItem: any) => {
+                            const updatedTasks = [...tasks];
+                            updatedTasks[index] = updatedItem;
+                            setTasks(updatedTasks);
+                          });
+                        setEditingId(null);
+                        setEditingText("");
+                      }}
+                    >
+                      <Text style={styles.saveButtonText}>Save</Text>
+                    </Pressable>
+                    <Pressable
+                      style={({ pressed }) => [
+                        styles.cancelButton,
+                        pressed && styles.pressed
+                      ]}
+                      onPress={() => {
+                        setEditingId(null);
+                        setEditingText("");
+                      }}
+                    >
+                      <Text style={styles.cancelButtonText}>Cancel</Text>
+                    </Pressable>
+                  </>
+                ) : (
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.editButton,
+                      pressed && styles.pressed
+                    ]}
+                    onPress={() => {
+                      setEditingId(task.id);
+                      setEditingText(task.name);
+                    }}
+                  >
+                    <Text style={styles.editButtonText}>Edit</Text>
+                  </Pressable>
+                )}
+                <Pressable
                   style={({ pressed }) => [
                     styles.deleteButton,
                     pressed && styles.pressed
-                  ]} 
-                  onPress={() => deleteTask(index)}
+                  ]}
+                  onPress={() => handleDeleteTask(index)}
                 >
                   <Text style={styles.deleteButtonText}>Delete</Text>
                 </Pressable>
@@ -208,6 +288,42 @@ const styles = StyleSheet.create({
     color: '#343A40',
     lineHeight: 22,
     fontWeight: '500',
+  },
+  editButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: '#E7F5FF',
+    marginRight: 8,
+  },
+  editButtonText: {
+    color: '#4C6EF5',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  saveButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: '#D3F9D8',
+    marginRight: 8,
+  },
+  saveButtonText: {
+    color: '#2F9E44',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  cancelButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: '#F1F3F5',
+    marginRight: 8,
+  },
+  cancelButtonText: {
+    color: '#6c757d',
+    fontSize: 14,
+    fontWeight: '600',
   },
   deleteButton: {
     paddingVertical: 6,
