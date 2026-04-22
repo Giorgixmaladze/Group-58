@@ -1,6 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TextInput, Pressable, Modal, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { useState } from 'react';
+/**
+ * Accessibility (ხელმისაწვდომობის) ატრიბუტების ახსნა:
+ * 
+ * 1. accessible: (boolean) როდესაც არის true, მიუთითებს, რომ ეს ხედი (View) არის 
+ *    ხელმისაწვდომობის ერთიანი ელემენტი. ის აერთიანებს მის შიგნით არსებულ შვილობილ 
+ *    ელემენტებს ერთ წასაკითხ კომპონენტად ეკრანის წამკითხველისთვის (Screen Reader).
+ * 
+ * 2. accessibilityLabel: (string) ტექსტი, რომელსაც ეკრანის წამკითხველი (Screen Reader) 
+ *    წაიკითხავს მომხმარებლისთვის ამ ელემენტზე ფოკუსირებისას. ის ანაცვლებს ელემენტის 
+ *    შიგნით არსებულ ნაგულისხმევ ტექსტს.
+ * 
+ * 3. accessibilityRole: (string) ეუბნება ეკრანის წამკითხველს, თუ რა ტიპის ელემენტია ეს 
+ *    (მაგალითად: 'button', 'header', 'link', 'image' და ა.შ.), რათა მომხმარებელმა იცოდეს, 
+ *    როგორ უნდა იმოქმედოს მასზე.
+ * 
+ * 4. accessibilityState: (object) აღწერს კომპონენტის მიმდინარე მდგომარეობას 
+ *    (მაგალითად: { disabled: true }, { selected: false }, { busy: true }). 
+ *    ეს ეხმარება მომხმარებელს გაიგოს, არის თუ არა ღილაკი გათიშული, მონიშნული ან 
+ *    მიმდინარეობს თუ არა რაიმე პროცესი.
+ * 
+ * 5. accessibilityHint: (string) დამატებითი მინიშნება, რომელიც ეხმარება მომხმარებელს 
+ *    გაიგოს, რა მოხდება ამ ელემენტზე მოქმედების (მაგ. დაჭერის) შედეგად. 
+ *    გამოიყენება მაშინ, როცა შედეგი არ არის ნათელი მხოლოდ accessibilityLabel-დან.
+ */
 
 export default function App() {
   const [toggleModal, setToggleModal] = useState(false);
@@ -39,18 +63,28 @@ export default function App() {
         <View style={styles.mainHeader}>
           <Text style={styles.mainTitle}>User Management</Text>
           <Text style={styles.mainSubtitle}>Manage your users and add new ones easily.</Text>
-          <Pressable onPress={() => setShowSpinner(!showSpinner)}>
+          <Pressable 
+            onPress={() => setShowSpinner(!showSpinner)}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="სპინერის ჩვენება"
+            accessibilityHint="რთავ ან თიშავ ჩატვირთვის ინდიკატორს ეკრანზე"
+            accessibilityState={{ expanded: showSpinner }}
+          >
             <Text>Show Spinner</Text>
           </Pressable>
         </View>
 
         <Pressable 
-          
           style={({ pressed }) => [
             styles.primaryButton,
             pressed && styles.buttonPressed
           ]}
           onPress={() => setToggleModal(true)}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="ახალი მომხმარებლის დამატება"
+          accessibilityHint="ხსნის ახალი მომხმარებლის დასარეგისტრირებელ ფანჯარას"
         >
           <Text style={styles.primaryButtonText}>+ Add New User</Text>
         </Pressable>
@@ -69,7 +103,13 @@ export default function App() {
                   <Text style={styles.userEmail}>{user.email}</Text>
                   <Text style={styles.userRole}>User</Text>
                 </View>
-                <Pressable onPress={() => deleteUser(index)}>
+                <Pressable 
+                  onPress={() => deleteUser(index)}
+                  accessible={true}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${user.email}-ის წაშლა`}
+                  accessibilityHint="შლის არჩეულ მომხმარებელს სიიდან"
+                >
                   <Text style={styles.deleteButtonText}>Delete</Text>
                 </Pressable>
               </View>
@@ -86,7 +126,14 @@ export default function App() {
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle} >Register User</Text>
-              <Pressable onPress={() => setToggleModal(false)} style={styles.closeButton}>
+              <Pressable 
+                onPress={() => setToggleModal(false)} 
+                style={styles.closeButton}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="ფანჯრის დახურვა"
+                accessibilityHint="ხურავს რეგისტრაციის ფანჯარას"
+              >
                 <Text style={styles.closeButtonText}>✕</Text>
               </Pressable>
             </View>
@@ -123,15 +170,28 @@ export default function App() {
                   pressed && styles.buttonPressed,
                   { marginTop: 12 }
                 ]}
+                onPress={handleAddUser}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="მომხმარებლის რეგისტრაცია"
+                accessibilityHint="ინახავს ახალ მომხმარებელს და ხურავს ფანჯარას"
+                accessibilityState={{ disabled: email === '' || password === '' }}
               >
-                <Text onPress={handleAddUser} style={styles.primaryButtonText}>Register</Text>
+                <Text style={styles.primaryButtonText}>Register</Text>
               </Pressable>
             </View>
           </View>
         </KeyboardAvoidingView>
       </Modal>
 
-      <ActivityIndicator size="large" color="#4f46e5" animating={showSpinner} />
+      <ActivityIndicator 
+        size="large" 
+        color="#4f46e5" 
+        animating={showSpinner} 
+        accessible={true}
+        accessibilityLabel="მიმდინარეობს ჩატვირთვა"
+        accessibilityState={{ busy: showSpinner }}
+      />
     </SafeAreaView>
   );
 }
