@@ -1,0 +1,62 @@
+ActivityIndicator არის React Native-ის ჩაშენებული კომპონენტი, რომელიც ეკრანზე გამოსახავს დატვირთვის ინდიკატორს (ე.წ. "Spinner"-ს).
+
+
+მისი მთავარი დანიშნულებაა მომხმარებელს აჩვენოს, რომ აპლიკაცია ამ წუთას რაღაც პროცესს ასრულებს (მაგალითად, ინტერნეტიდან მონაცემებს ტვირთავს) და საჭიროა ცოტაოდენი მოთმინება.
+
+
+ძირითადი თვისებები (Props):
+    1.animating: (Boolean) განსაზღვრავს, გამოჩნდეს თუ არა ინდიკატორი. თუ false-ია, ის გაქრება.
+
+    2.size: განსაზღვრავს ზომას. აქვს ორი სტანდარტული მნიშვნელობა: 'small' და 'large'. (Android-ზე ასევე შეგიძლიათ გამოიყენოთ რიცხვები).
+
+    3.color: ცვლის ინდიკატორის ფერს (მაგალითად, color="#0000ff").
+
+
+როგორ მუშაობს ის პრაქტიკაში?
+ჩვეულებრივ, მას ვიყენებთ პირობითი რენდერინგისას (Conditional Rendering). სანამ მონაცემები იტვირთება, ვაჩვენებთ ინდიკატორს, ხოლო ჩატვირთვის შემდეგ — ძირითად კონტენტს.
+
+მარტივი მაგალითი:
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
+
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // სიმულაცია: მონაცემების ჩატვირთვა 3 წამში
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        {/* აქ ჩანს "სპინერი" */}
+        <ActivityIndicator size="large" color="#6200ee" />
+        <Text>მონაცემები იტვირთება...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text>მონაცემები წარმატებით ჩაიტვირთა! ✅</Text>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default App;
+
+მნიშვნელოვანი დეტალი:
+    -iOS-ზე: ActivityIndicator ყოველთვის ერთნაირად გამოიყურება (სტანდარტული ნაცრისფერი ხაზები, რომლებიც ბრუნავს).
+
+    -Android-ზე: ის იღებს სისტემურ ვიზუალს (წრიული პროგრესის ხაზი).

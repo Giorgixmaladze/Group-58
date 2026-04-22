@@ -1,40 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable, ScrollView, Modal } from 'react-native';
 import { useState } from 'react';
-
 import { Post } from './types';
-import { TextInput, Pressable, ScrollView } from 'react-native';
-
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [pendingDeleteIndex, setPendingDeleteIndex] = useState<number | null>(null);
 
-  const addPost = () =>{
+  const addPost = () => {
     if (!title.trim() || !content.trim()) return;
 
     const newPost = {
       title: title.trim(),
       content: content.trim(),
-    }
+    };
     setPosts((prevPosts) => [...prevPosts, newPost]);
     setTitle('');
     setContent('');
-  }
+  };
 
+  const deletePost = (index: number) => {
+    setPendingDeleteIndex(index);
+  };
 
+  const confirmDelete = () => {
+    if (pendingDeleteIndex === null) return;
+    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== pendingDeleteIndex));
+    setPendingDeleteIndex(null);
+  };
 
-  const deletePost = (index:number) =>{
-    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== index));
-  }
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
+      
       <View style={styles.header}>
         <Text style={styles.title}>Community Pulse</Text>
         <Text style={styles.subtitle}>Share your thoughts with the world</Text>
       </View>
+
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.contentContainer}
@@ -60,22 +65,58 @@ export default function App() {
             value={content}
             onChangeText={setContent}
           />
-          <Pressable style={styles.addButton} onPress={addPost}>
+          <Pressable 
+            style={({ pressed }) => [
+              styles.addButton,
+              pressed && { opacity: 0.8 }
+            ]} 
+            onPress={addPost}
+          >
             <Text style={styles.addButtonText}>Add Post</Text>
           </Pressable>
         </View>
+
         <View style={styles.postList}>
           {posts.map((post, index) => (
             <View key={index} style={styles.postCard}>
               <Text style={styles.postTitle}>{post.title}</Text>
               <Text style={styles.postContent}>{post.content}</Text>
-              <Pressable style={styles.deleteButton} onPress={() => deletePost(index)}>
-                <Text style={styles.deleteButtonText}>Delete</Text>
+              
+              <Pressable 
+                style={({ pressed }) => [
+                  styles.deleteButton,
+                  pressed && { opacity: 0.7 }
+                ]} 
+                onPress={() => deletePost(index)}
+              >
+                <Text style={styles.deleteButtonText}>Delete Post</Text>
               </Pressable>
             </View>
           ))}
         </View>
       </ScrollView>
+
+      <Modal
+        transparent
+        animationType="fade"
+        visible={pendingDeleteIndex !== null}
+        onRequestClose={() => setPendingDeleteIndex(null)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>Delete Post</Text>
+            <Text style={styles.modalText}>Are you sure you want to delete this post?</Text>
+            <View style={styles.modalActions}>
+              <Pressable style={styles.modalCancelButton} onPress={() => setPendingDeleteIndex(null)}>
+                <Text style={styles.modalCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable style={styles.modalDeleteButton} onPress={confirmDelete}>
+                <Text style={styles.modalDeleteText}>Delete</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -83,7 +124,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8FAFC', // Slate 50
+    backgroundColor: '#F8FAFC',
     paddingTop: 60,
     paddingHorizontal: 20,
   },
@@ -94,12 +135,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: '800',
-    color: '#0F172A', // Slate 900
+    color: '#0F172A',
     letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    color: '#64748B', // Slate 500
+    color: '#64748B',
     marginTop: 4,
   },
   content: {
@@ -107,7 +148,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     gap: 20,
-    paddingBottom: 24,
+    paddingBottom: 40, // დამატებითი სივრცე ბოლოში
+    flexGrow: 1,
   },
   formCard: {
     backgroundColor: '#FFFFFF',
@@ -137,7 +179,7 @@ const styles = StyleSheet.create({
     color: '#0F172A',
   },
   textArea: {
-    minHeight: 130,
+    minHeight: 100,
   },
   addButton: {
     marginTop: 6,
@@ -158,36 +200,89 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   postList: {
-    gap: 14,
+    gap: 16,
   },
   postCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
-    padding: 18,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 2,
   },
   postTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: '#1E293B',
+    marginBottom: 6,
   },
   postContent: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#64748B',
-    marginBottom: 12,
+    lineHeight: 22,
+    marginBottom: 16,
   },
   deleteButton: {
-    marginTop: 6,
     backgroundColor: '#EF4444',
     borderRadius: 12,
-    paddingVertical: 14,
+    paddingVertical: 12, // სიმაღლის ნაცვლად ვიყენებთ padding-ს
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
-    height: 40,
   },
   deleteButtonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
-    letterSpacing: 0.2,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.35)',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+  },
+  modalCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 18,
+    gap: 12,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#475569',
+    lineHeight: 22,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
+    marginTop: 4,
+  },
+  modalCancelButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: '#E2E8F0',
+  },
+  modalCancelText: {
+    color: '#334155',
+    fontWeight: '600',
+  },
+  modalDeleteButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: '#EF4444',
+  },
+  modalDeleteText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
   },
 });
